@@ -13,9 +13,10 @@ jobs:
     steps:
       - name: Generate Release Notes
         id: notes
-        uses: RedCrafter07/release-notes-action@v1
+        uses: RedCrafter07/release-notes-action@v1.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag-name: "test tag"
 
       - name: Update PR Description
         uses: actions/github-script@v6
