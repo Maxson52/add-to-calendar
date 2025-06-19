@@ -1,0 +1,29 @@
+name: Generate PR Release Notes
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]  # Triggers on PR creation/update
+
+jobs:
+  generate-notes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read    # Needed to fetch commit history
+      pull-requests: write  # Needed to update PR description
+    steps:
+      - name: Generate Release Notes
+        id: notes
+        uses: tibdex/github-actions-release-notes@v1  # Better alternative for PRs
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update PR Description
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              body: "${{ steps.notes.outputs.release_notes }}"
+            })
