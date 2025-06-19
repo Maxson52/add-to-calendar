@@ -2,20 +2,20 @@ name: Generate PR Release Notes
 
 on:
   pull_request:
-    types: [opened, reopened, edited, synchronize]  # Triggers on PR creation/update
+    types: [opened, reopened, edited, synchronize] 
 
 jobs:
   generate-notes:
     runs-on: ubuntu-latest
     permissions:
-      contents: read    # Needed to fetch commit history
-      pull-requests: write  # Needed to update PR description
+      contents: read     
+      pull-requests: write 
     steps:
       - name: Generate Release Notes
         id: notes
-        uses: tibdex/github-actions-release-notes@v1  # Better alternative for PRs
+        uses: RedCrafter07/release-notes-action@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update PR Description
         uses: actions/github-script@v6
@@ -25,5 +25,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number,
-              body: "${{ steps.notes.outputs.release_notes }}"
-            })
+              body: "${{ steps.notes.outputs.release-notes }}"
+            });
