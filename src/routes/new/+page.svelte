@@ -52,7 +52,7 @@
   </button>
 
   {#if generatedLink}
-    <p style="margin-top: 1rem">Your link:</p>
+    <p style="margin-top: 1rem; margin-bottom: 0rem;">Your link:</p>
     <code>{generatedLink}</code>
 
     <button
